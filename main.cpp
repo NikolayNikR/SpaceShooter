@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "Player.h"
 
 const int PLAYER_SPEED = 130;
 
@@ -9,11 +10,8 @@ int main() {
 	texture.loadFromFile("C:\\Users\\ingin\\Documents\\С++\\Рычков Николай\\Assets\\SpaceWall.jpg");
 	sf::Sprite space;
 	space.setTexture(texture);
+	Player player(sf::Vector2f(200, 200), sf::Vector2f(window.getSize().x / 2, 800), PLAYER_SPEED, "C:\\Users\\ingin\\Documents\\С++\\Рычков Николай\\Assets\\SpaceShip.png");
 
-	sf::RectangleShape player;
-	player.setSize(sf::Vector2f(100, 100));
-	player.setPosition(sf::Vector2f(window.getSize().x / 2, 800));
-	player.setOrigin(player.getSize().x/2, 0);
 	
 
 	sf::Clock clock;
@@ -27,26 +25,16 @@ int main() {
 		}
 		sf::Time delta_time = clock.restart();
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			sf::Vector2f currentPos = player.getPosition();
-			if (player.getPosition().x < window.getSize().x - player.getSize().x / 2) {
-				player.setPosition(sf::Vector2f(currentPos.x + PLAYER_SPEED * delta_time.asSeconds(),currentPos.y));
-			}
-			
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-			sf::Vector2f currentPos = player.getPosition();
-			if (player.getPosition().x > 0 + player.getSize().x/2) {
-				player.setPosition(sf::Vector2f(currentPos.x - PLAYER_SPEED * delta_time.asSeconds(), currentPos.y));
-			}
-		}
 
 
 
-		
+
+		player.Update(delta_time, window);
 		window.clear();
+		
 		window.draw(space);
-		window.draw(player);
+
+		player.Draw(window);
 		window.display();
 	}
 }
